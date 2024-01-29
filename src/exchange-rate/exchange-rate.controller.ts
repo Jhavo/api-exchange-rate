@@ -16,7 +16,7 @@ export class ExchangeRateController {
   @Post('calculate')
   @ApiOkResponse({ type: CalculateResponseDto })
   async calculate(@Body() calculateRequestDto: CalculateRequestDto): Promise<CalculateResponseDto> {
-    const exchangeRate: ExchangeRate = await this.exchangeRateService.findOne(calculateRequestDto.originCurrency, calculateRequestDto.destinationCurrency);
+    const exchangeRate: ExchangeRate = await this.exchangeRateService.findByOriginAndDestinationCurrency(calculateRequestDto.originCurrency, calculateRequestDto.destinationCurrency);
     const convertedAmount = calculateRequestDto.amount * exchangeRate.rate;
 
     return {

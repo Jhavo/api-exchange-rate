@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import "dotenv/config";
 import { UserService } from 'src/user/user.service';
 import { User } from '../user/entity';
 import { LoginRequestDto } from './dto';
@@ -14,27 +13,23 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async validateUser(email: string, password: string): Promise<User> {
-        const user: User = await this.userService.findByEmail(email);
-        const passwordValid = await bcrypt.compare(password, user.password)
-        if (!passwordValid) throw new UnauthorizedException('Invalid password');
-        return user;
-    }
-
     async login(loginRequestDto: LoginRequestDto): Promise<string> {
-        const user: User = await this.userService.findByEmail(loginRequestDto.email);
+        const user: User = await this.validateUser(loginRequestDto.email, loginRequestDto.password);
 
         const payload = {
             sub: user.id,
-            email: user.email
+            email: user.email,
+            password: user.password
         };
 
-        const jwtSignOptions: JwtSignOptions = {
-            secret: process.env.JWT_SECRET,
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRATION_TIME
-        };
+        return await this.jwtService.signAsync(payload);
+    }
 
-        return this.jwtService.sign(payload, jwtSignOptions);
+    async validateUser(email: string, password: string): Promise<User> {
+        const user: User = await this.userService.findOneByEmail(email);
+        const passwordValid = await bcrypt.compareSync(password, user.password)
+        if (!passwordValid) throw new UnauthorizedException('Invalid password');
+        return user;
     }
 
 }

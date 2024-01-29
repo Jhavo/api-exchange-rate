@@ -12,7 +12,7 @@ export class ExchangeRateService {
         private readonly exchangeRateRepository: Repository<ExchangeRate>
     ) {}
 
-    async findOne(originCurrency: string, destinationCurrency: string): Promise<ExchangeRate> {
+    async findByOriginAndDestinationCurrency(originCurrency: string, destinationCurrency: string): Promise<ExchangeRate> {
         const exchangeRate: ExchangeRate = await this.exchangeRateRepository.findOne({
             where: {
                 originCurrency: originCurrency,
@@ -29,7 +29,7 @@ export class ExchangeRateService {
     }
 
     async update(updateRequestDto: UpdateRequestDto): Promise<ExchangeRate> {
-        const exchangeRate: ExchangeRate = await this.findOne(updateRequestDto.originCurrency, updateRequestDto.destinationCurrency);
+        const exchangeRate: ExchangeRate = await this.findByOriginAndDestinationCurrency(updateRequestDto.originCurrency, updateRequestDto.destinationCurrency);
         Object.assign(exchangeRate, updateRequestDto);
         return await this.exchangeRateRepository.save(exchangeRate);
     }

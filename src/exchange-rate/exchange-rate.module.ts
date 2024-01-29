@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExchangeRate } from './entity';
 import { ExchangeRateController } from './exchange-rate.controller';
