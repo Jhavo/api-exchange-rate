@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "c900377b-611e-45a3-8caa-0a95c62b87a1",
+		"name": "ApiExchangeRate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3758717"
+	},
+	"item": [
+		{
+			"name": "getConversionRate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9292/exchange-rate/EUR/PEN",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"exchange-rate",
+						"EUR",
+						"PEN"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

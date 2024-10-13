@@ -1,0 +1,5 @@
+server:
+    port: 9292
+app:
+    api:
+        exchangeUri: https://v6.exchangerate-api.com/v6/1227cf5d13731ad6c251bc00/pair
